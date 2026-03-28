@@ -1,0 +1,316 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <p class="text-muted">{{ text_description }}</p>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <input type="hidden" name="module_bookurier_status" value="0"/>
+              <input type="checkbox" name="module_bookurier_status" value="1" id="input-status"{% if module_bookurier_status %} checked="checked"{% endif %}/>
+            </div>
+          </div>
+
+          <hr/>
+          <h4>{{ text_bookurier_section }}</h4>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-bookurier-username">{{ entry_bookurier_username }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="module_bookurier_bookurier_username" value="{{ module_bookurier_bookurier_username }}" id="input-bookurier-username" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-bookurier-password">{{ entry_bookurier_password }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="module_bookurier_bookurier_password" value="{{ module_bookurier_bookurier_password }}" id="input-bookurier-password" class="form-control" autocomplete="new-password"/>
+              <p class="help-block">{{ help_password_keep }}</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-bookurier-api-key">{{ entry_bookurier_api_key }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="module_bookurier_bookurier_api_key" value="{{ module_bookurier_bookurier_api_key }}" id="input-bookurier-api-key" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-bookurier-pickup-point">{{ entry_bookurier_pickup_point }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="module_bookurier_bookurier_pickup_point" value="{{ module_bookurier_bookurier_pickup_point }}" id="input-bookurier-pickup-point" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-bookurier-service">{{ entry_bookurier_service }}</label>
+            <div class="col-sm-10">
+              <select name="module_bookurier_bookurier_service" id="input-bookurier-service" class="form-control">
+                {% for service in module_bookurier_bookurier_services %}
+                  <option value="{{ service.id }}"{% if service.id == module_bookurier_bookurier_service %} selected="selected"{% endif %}>{{ service.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <hr/>
+          <h4>{{ text_sameday_section }}</h4>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-enabled">{{ entry_sameday_enabled }}</label>
+            <div class="col-sm-10">
+              <input type="hidden" name="module_bookurier_sameday_enabled" value="0"/>
+              <input type="checkbox" name="module_bookurier_sameday_enabled" value="1" id="input-sameday-enabled"{% if module_bookurier_sameday_enabled %} checked="checked"{% endif %}/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-environment">{{ entry_sameday_environment }}</label>
+            <div class="col-sm-10">
+              <select name="module_bookurier_sameday_environment" id="input-sameday-environment" class="form-control">
+                {% for environment in module_bookurier_sameday_environments %}
+                  <option value="{{ environment.code }}"{% if environment.code == module_bookurier_sameday_environment %} selected="selected"{% endif %}>{{ environment.text }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-username">{{ entry_sameday_username }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="module_bookurier_sameday_username" value="{{ module_bookurier_sameday_username }}" id="input-sameday-username" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-password">{{ entry_sameday_password }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="module_bookurier_sameday_password" value="{{ module_bookurier_sameday_password }}" id="input-sameday-password" class="form-control" autocomplete="new-password"/>
+              <p class="help-block">{{ help_password_keep }}</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-pickup-point">{{ entry_sameday_pickup_point }}</label>
+            <div class="col-sm-10">
+              <div class="input-group" id="sameday-pickup-point-field">
+                {% if module_bookurier_sameday_pickup_points %}
+                  <select name="module_bookurier_sameday_pickup_point" id="input-sameday-pickup-point" class="form-control">
+                    {% for pickup_point in module_bookurier_sameday_pickup_points %}
+                      <option value="{{ pickup_point.id }}"{% if pickup_point.id == module_bookurier_sameday_pickup_point %} selected="selected"{% endif %}>{{ pickup_point.name }}</option>
+                    {% endfor %}
+                  </select>
+                {% else %}
+                  <input type="text" name="module_bookurier_sameday_pickup_point" value="{{ module_bookurier_sameday_pickup_point }}" id="input-sameday-pickup-point" class="form-control"/>
+                {% endif %}
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" id="button-sync-pickup-points" data-sync-url="{{ sync_pickup_points }}">{{ button_sync_pickup_points }}</button>
+                </span>
+              </div>
+              <p class="help-block">{{ text_pickup_points_cached }}: <span id="sameday-pickup-count">{{ module_bookurier_sameday_pickup_points|length }}</span>. <span id="sameday-pickup-synced-at">{{ module_bookurier_sameday_pickup_points_synced_at ?: text_never_synced }}</span></p>
+              <p class="help-block">{{ text_pickup_point_manual_help }}</p>
+              <p id="sameday-pickup-status" class="help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sameday-package-type">{{ entry_sameday_package_type }}</label>
+            <div class="col-sm-10">
+              <select name="module_bookurier_sameday_package_type" id="input-sameday-package-type" class="form-control">
+                {% for package_type in module_bookurier_sameday_package_types %}
+                  <option value="{{ package_type.code }}"{% if package_type.code == module_bookurier_sameday_package_type %} selected="selected"{% endif %}>{{ package_type.text }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_sameday_lockers }}</label>
+            <div class="col-sm-10">
+              <button type="button" class="btn btn-default" id="button-sync-lockers" data-sync-url="{{ sync_lockers }}">{{ button_sync_lockers }}</button>
+              <p class="help-block">{{ text_lockers_cached }}: <span id="sameday-locker-count">{{ module_bookurier_sameday_lockers_count }}</span>. <span id="sameday-locker-synced-at">{{ module_bookurier_sameday_lockers_synced_at ?: text_never_synced }}</span></p>
+              <p id="sameday-locker-status" class="help-block"></p>
+            </div>
+          </div>
+
+          <hr/>
+          <h4>{{ text_auto_awb_section }}</h4>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-auto-awb-enabled">{{ entry_auto_awb_enabled }}</label>
+            <div class="col-sm-10">
+              <input type="hidden" name="module_bookurier_auto_awb_enabled" value="0"/>
+              <input type="checkbox" name="module_bookurier_auto_awb_enabled" value="1" id="input-auto-awb-enabled"{% if module_bookurier_auto_awb_enabled %} checked="checked"{% endif %}/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-auto-awb-statuses">{{ entry_auto_awb_status_ids }}</label>
+            <div class="col-sm-10">
+              <select name="module_bookurier_auto_awb_status_ids[]" id="input-auto-awb-statuses" class="form-control" multiple="multiple" size="8">
+                {% for order_status in order_statuses %}
+                  <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id in module_bookurier_auto_awb_status_ids %} selected="selected"{% endif %}>{{ order_status.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function() {
+  var form = document.getElementById('form-module');
+  var pickupButton = document.getElementById('button-sync-pickup-points');
+  var lockerButton = document.getElementById('button-sync-lockers');
+  var pickupStatus = document.getElementById('sameday-pickup-status');
+  var lockerStatus = document.getElementById('sameday-locker-status');
+  var pickupField = document.getElementById('sameday-pickup-point-field');
+  var pickupCount = document.getElementById('sameday-pickup-count');
+  var pickupSyncedAt = document.getElementById('sameday-pickup-synced-at');
+  var lockerCount = document.getElementById('sameday-locker-count');
+  var lockerSyncedAt = document.getElementById('sameday-locker-synced-at');
+
+  function setStatus(element, message, isError) {
+    if (!element) {
+      return;
+    }
+
+    element.textContent = message || '';
+    element.className = 'help-block' + (message ? (isError ? ' text-danger' : ' text-success') : '');
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderPickupPoints(points, selectedId) {
+    if (!pickupField) {
+      return;
+    }
+
+    if (!Array.isArray(points) || !points.length) {
+      pickupField.innerHTML = '<input type="text" name="module_bookurier_sameday_pickup_point" value="' + String(selectedId || '') + '" id="input-sameday-pickup-point" class="form-control"/><span class="input-group-btn"><button type="button" class="btn btn-default" id="button-sync-pickup-points" data-sync-url="{{ sync_pickup_points }}">{{ button_sync_pickup_points|e('js') }}</button></span>';
+      bindButtons();
+      return;
+    }
+
+    var html = '<select name="module_bookurier_sameday_pickup_point" id="input-sameday-pickup-point" class="form-control">';
+
+    points.forEach(function(point) {
+      var id = Number(point.id || 0);
+      var selected = id === Number(selectedId || 0) ? ' selected="selected"' : '';
+      html += '<option value="' + id + '"' + selected + '>' + escapeHtml(String(point.name || '')) + '</option>';
+    });
+
+    html += '</select><span class="input-group-btn"><button type="button" class="btn btn-default" id="button-sync-pickup-points" data-sync-url="{{ sync_pickup_points }}">{{ button_sync_pickup_points|e('js') }}</button></span>';
+    pickupField.innerHTML = html;
+    bindButtons();
+  }
+
+  function runSync(button, statusElement, onSuccess) {
+    if (!button || !button.getAttribute('data-sync-url')) {
+      return;
+    }
+
+    button.disabled = true;
+    setStatus(statusElement, '{{ text_syncing|e('js') }}', false);
+
+    fetch(button.getAttribute('data-sync-url'), {
+      method: 'POST',
+      body: new FormData(form),
+      credentials: 'same-origin'
+    })
+      .then(function(response) { return response.json(); })
+      .then(function(payload) {
+        if (payload.error) {
+          throw new Error(payload.error);
+        }
+
+        if (typeof onSuccess === 'function') {
+          onSuccess(payload);
+        }
+
+        setStatus(statusElement, payload.success || '', false);
+      })
+      .catch(function(error) {
+        setStatus(statusElement, error && error.message ? error.message : 'Sync failed.', true);
+      })
+      .finally(function() {
+        button.disabled = false;
+      });
+  }
+
+  function bindButtons() {
+    pickupButton = document.getElementById('button-sync-pickup-points');
+    lockerButton = document.getElementById('button-sync-lockers');
+
+    if (pickupButton && !pickupButton.dataset.bound) {
+      pickupButton.dataset.bound = '1';
+      pickupButton.addEventListener('click', function() {
+        runSync(pickupButton, pickupStatus, function(payload) {
+          renderPickupPoints(payload.pickup_points || [], payload.selected_id || 0);
+
+          if (pickupCount) {
+            pickupCount.textContent = String((payload.pickup_points || []).length);
+          }
+
+          if (pickupSyncedAt) {
+            pickupSyncedAt.textContent = String(payload.synced_at || '{{ text_never_synced|e('js') }}');
+          }
+        });
+      });
+    }
+
+    if (lockerButton && !lockerButton.dataset.bound) {
+      lockerButton.dataset.bound = '1';
+      lockerButton.addEventListener('click', function() {
+        runSync(lockerButton, lockerStatus, function(payload) {
+          if (lockerCount) {
+            lockerCount.textContent = String(payload.count || 0);
+          }
+
+          if (lockerSyncedAt) {
+            lockerSyncedAt.textContent = String(payload.synced_at || '{{ text_never_synced|e('js') }}');
+          }
+        });
+      });
+    }
+  }
+
+  bindButtons();
+})();
+</script>
+{{ footer }}

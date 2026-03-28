@@ -1,0 +1,171 @@
+<div id="bookurier-awb-panel">
+  {% if error %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error }}</div>
+  {% else %}
+    <div id="bookurier-awb-messages"></div>
+
+    <p class="text-muted">{{ text_panel_description }}</p>
+
+    {% if not is_supported_order %}
+      <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_not_supported_order }}</div>
+    {% endif %}
+
+    {% if configuration_issues %}
+      <div class="alert alert-warning">
+        <strong>{{ text_configuration_issues }}</strong>
+        <ul class="m-b-0" style="padding-left:18px;">
+          {% for issue in configuration_issues %}
+            <li>{{ issue }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th style="width:220px;">{{ text_courier }}</th>
+            <td>{{ courier_label ?: text_none }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_shipping_method }}</th>
+            <td>{{ shipping_method_name ?: text_none }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_order_status }}</th>
+            <td>{{ order_status_name ?: text_none }}</td>
+          </tr>
+          {% if locker_id or locker_label %}
+            <tr>
+              <th>{{ text_locker }}</th>
+              <td>{{ locker_label ?: locker_id }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>{{ text_awb_code }}</th>
+            <td>{{ awb.awb_code ?: text_none }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_panel_status }}</th>
+            <td>{{ panel_status_label }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_provider_status }}</th>
+            <td>{{ awb.provider_status ?: text_none }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_last_error }}</th>
+            <td>{{ awb.error_message ?: text_none }}</td>
+          </tr>
+          <tr>
+            <th>{{ text_last_update }}</th>
+            <td>{{ awb.date_modified ?: text_none }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="btn-group">
+      {% if can_generate %}
+        <button type="button" id="button-bookurier-awb-generate" class="btn btn-primary" data-generate-url="{{ generate_url }}" data-panel-url="{{ panel_url }}">
+          <i class="fa fa-barcode"></i> {{ button_generate_awb }}
+        </button>
+      {% endif %}
+
+      {% if can_download %}
+        <a href="{{ download_url }}" class="btn btn-default" target="_blank">
+          <i class="fa fa-download"></i> {{ button_download_awb }}
+        </a>
+      {% endif %}
+
+      {% if can_refresh %}
+        <button type="button" id="button-bookurier-awb-refresh" class="btn btn-default" data-refresh-url="{{ refresh_url }}" data-panel-url="{{ panel_url }}">
+          <i class="fa fa-refresh"></i> {{ button_refresh_tracking }}
+        </button>
+      {% endif %}
+    </div>
+
+    <script>
+    (function($) {
+      if (window.bookurierAwbPanelInitOc3) {
+        return;
+      }
+
+      window.bookurierAwbPanelInitOc3 = true;
+
+      function showBookurierAwbMessage(type, text) {
+        var icon = type === 'danger' ? 'fa-exclamation-circle' : 'fa-check-circle';
+
+        $('#bookurier-awb-messages').html(
+          '<div class="alert alert-' + type + ' alert-dismissible">' +
+          '<i class="fa ' + icon + '"></i> ' + text +
+          '<button type="button" class="close" data-dismiss="alert">&times;</button></div>'
+        );
+      }
+
+      function reloadBookurierAwbPanel(panelUrl) {
+        $('#bookurier-awb-panel').load(panelUrl + ' #bookurier-awb-panel > *');
+      }
+
+      $(document).on('click', '#button-bookurier-awb-generate', function() {
+        var button = $(this);
+
+        $.ajax({
+          url: button.data('generate-url'),
+          type: 'post',
+          dataType: 'json',
+          beforeSend: function() {
+            button.prop('disabled', true);
+          },
+          complete: function() {
+            button.prop('disabled', false);
+          },
+          success: function(json) {
+            if (json.error) {
+              showBookurierAwbMessage('danger', json.error);
+            }
+
+            if (json.success) {
+              showBookurierAwbMessage('success', json.success);
+              reloadBookurierAwbPanel(button.data('panel-url'));
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            showBookurierAwbMessage('danger', thrownError + "\r\n" + xhr.statusText);
+          }
+        });
+      });
+
+      $(document).on('click', '#button-bookurier-awb-refresh', function() {
+        var button = $(this);
+
+        $.ajax({
+          url: button.data('refresh-url'),
+          type: 'post',
+          dataType: 'json',
+          beforeSend: function() {
+            button.prop('disabled', true);
+          },
+          complete: function() {
+            button.prop('disabled', false);
+          },
+          success: function(json) {
+            if (json.error) {
+              showBookurierAwbMessage('danger', json.error);
+            }
+
+            if (json.success) {
+              showBookurierAwbMessage('success', json.success);
+              reloadBookurierAwbPanel(button.data('panel-url'));
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            showBookurierAwbMessage('danger', thrownError + "\r\n" + xhr.statusText);
+          }
+        });
+      });
+    })(jQuery);
+    </script>
+  {% endif %}
+</div>
