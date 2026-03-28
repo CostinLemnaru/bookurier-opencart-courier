@@ -1,5 +1,6 @@
 {
   "name": "Bookurier Courier",
+  "code": "bookurier",
   "description": "Bookurier courier and Sameday Locker integration for OpenCart.",
   "version": "0.1.0",
   "author": "Bookurier",

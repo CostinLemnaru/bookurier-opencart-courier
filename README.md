@@ -27,13 +27,13 @@ Compatibilitate actuala:
 
 Pachetele de release sunt:
 
-- OpenCart 4: `bookurier-opencart-courier-oc4-vX.Y.Z.zip`
-- OpenCart 3: `bookurier-opencart-courier-oc3-vX.Y.Z.ocmod.zip`
+- OpenCart 4 installer: `bookurier.ocmod.zip`
+- OpenCart 3 installer: `bookurier-opencart-courier-oc3-vX.Y.Z.ocmod.zip`
 
 ### OpenCart 4
 
 1. mergi in `Marketplace > Installer`
-2. upload la pachetul `bookurier-opencart-courier-oc4-vX.Y.Z.zip`
+2. upload la pachetul `bookurier.ocmod.zip`
 3. dupa instalare, mergi in `Extensions > Extensions > Modules`
 4. instaleaza `Bookurier Courier`
 5. intra pe `Edit` si salveaza configurarea modulului

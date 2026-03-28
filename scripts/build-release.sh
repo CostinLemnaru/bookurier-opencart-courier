@@ -20,11 +20,13 @@ resolve_version() {
 VERSION="${1:-$(resolve_version)}"
 TAG="v$VERSION"
 
-OC4_FILENAME="bookurier-opencart-courier-oc4-${TAG}.zip"
+OC4_INSTALLER_FILENAME="bookurier.ocmod.zip"
 OC3_FILENAME="bookurier-opencart-courier-oc3-${TAG}.ocmod.zip"
 
 mkdir -p "$DIST_DIR"
-rm -f "$DIST_DIR/$OC4_FILENAME" "$DIST_DIR/$OC4_FILENAME.sha256" "$DIST_DIR/$OC3_FILENAME" "$DIST_DIR/$OC3_FILENAME.sha256"
+rm -f \
+  "$DIST_DIR/$OC4_INSTALLER_FILENAME" "$DIST_DIR/$OC4_INSTALLER_FILENAME.sha256" \
+  "$DIST_DIR/$OC3_FILENAME" "$DIST_DIR/$OC3_FILENAME.sha256"
 
 build_oc4() {
   local stage_dir="$TMP_DIR/oc4"
@@ -37,10 +39,10 @@ build_oc4() {
 
   (
     cd "$stage_dir"
-    zip -rq "$DIST_DIR/$OC4_FILENAME" install.json admin catalog system
+    zip -rq "$DIST_DIR/$OC4_INSTALLER_FILENAME" install.json admin catalog system
   )
 
-  sha256sum "$DIST_DIR/$OC4_FILENAME" | sed "s#  $DIST_DIR/#  dist/#" > "$DIST_DIR/$OC4_FILENAME.sha256"
+  sha256sum "$DIST_DIR/$OC4_INSTALLER_FILENAME" | sed "s#  $DIST_DIR/#  dist/#" > "$DIST_DIR/$OC4_INSTALLER_FILENAME.sha256"
 }
 
 build_oc3() {
@@ -66,4 +68,4 @@ build_oc3() {
 build_oc4
 build_oc3
 
-printf 'Built:\n- %s\n- %s\n' "$DIST_DIR/$OC4_FILENAME" "$DIST_DIR/$OC3_FILENAME"
+printf 'Built:\n- %s\n- %s\n' "$DIST_DIR/$OC4_INSTALLER_FILENAME" "$DIST_DIR/$OC3_FILENAME"
