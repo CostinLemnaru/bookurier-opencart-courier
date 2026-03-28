@@ -9,6 +9,13 @@ Compatibilitate actuala:
 - OpenCart `3.0.5.x`
 - OpenCart `4.1.x`
 
+## Download last version
+
+- OpenCart 4:
+  [bookurier.ocmod.zip](https://github.com/CostinLemnaru/bookurier-opencart-courier/releases/download/v0.1.0/bookurier.ocmod.zip)
+- OpenCart 3:
+  [bookurier-opencart-courier-oc3-v0.1.0.ocmod.zip](https://github.com/CostinLemnaru/bookurier-opencart-courier/releases/download/v0.1.0/bookurier-opencart-courier-oc3-v0.1.0.ocmod.zip)
+
 ## Functionalitate
 
 - adauga 2 metode de livrare:
