@@ -68,19 +68,15 @@ class Bookurier extends \Opencart\System\Engine\Controller {
 	}
 
 	public function install(): void {
-		if ($this->user->hasPermission('modify', 'extension/bookurier/shipping/bookurier')) {
-			$this->load->model('extension/bookurier/setup');
+		$this->load->model('extension/bookurier/setup');
 
-			$this->model_extension_bookurier_setup->installShipping(Settings::SHIPPING_BOOKURIER_CODE);
-		}
+		$this->model_extension_bookurier_setup->installShipping(Settings::SHIPPING_BOOKURIER_CODE);
 	}
 
 	public function uninstall(): void {
-		if ($this->user->hasPermission('modify', 'extension/bookurier/shipping/bookurier')) {
-			$this->load->model('extension/bookurier/setup');
+		$this->load->model('extension/bookurier/setup');
 
-			$this->model_extension_bookurier_setup->uninstallShipping();
-		}
+		$this->model_extension_bookurier_setup->uninstallShipping();
 	}
 
 	/**

@@ -9,6 +9,7 @@ use Opencart\System\Library\Extension\Bookurier\Settings;
 class Bookurier extends \Opencart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('extension/bookurier/module/bookurier');
+		$this->ensureSchema();
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -110,6 +111,7 @@ class Bookurier extends \Opencart\System\Engine\Controller {
 
 	public function syncPickupPoints(): void {
 		$this->load->language('extension/bookurier/module/bookurier');
+		$this->ensureSchema();
 
 		$json = [];
 
@@ -148,6 +150,7 @@ class Bookurier extends \Opencart\System\Engine\Controller {
 
 	public function syncLockers(): void {
 		$this->load->language('extension/bookurier/module/bookurier');
+		$this->ensureSchema();
 
 		$json = [];
 
@@ -182,19 +185,15 @@ class Bookurier extends \Opencart\System\Engine\Controller {
 	}
 
 	public function install(): void {
-		if ($this->user->hasPermission('modify', 'extension/bookurier/module/bookurier')) {
-			$this->load->model('extension/bookurier/setup');
+		$this->load->model('extension/bookurier/setup');
 
-			$this->model_extension_bookurier_setup->installModule();
-		}
+		$this->model_extension_bookurier_setup->installModule();
 	}
 
 	public function uninstall(): void {
-		if ($this->user->hasPermission('modify', 'extension/bookurier/module/bookurier')) {
-			$this->load->model('extension/bookurier/setup');
+		$this->load->model('extension/bookurier/setup');
 
-			$this->model_extension_bookurier_setup->uninstallModule();
-		}
+		$this->model_extension_bookurier_setup->uninstallModule();
 	}
 
 	/**
@@ -218,6 +217,12 @@ class Bookurier extends \Opencart\System\Engine\Controller {
 		}
 
 		return $value;
+	}
+
+	private function ensureSchema(): void {
+		$this->load->model('extension/bookurier/setup');
+
+		$this->model_extension_bookurier_setup->installSchema();
 	}
 
 	/**
